@@ -3,7 +3,7 @@ from fastapi import HTTPException
 from sqlmodel import Session, select
 
 from models.course import Course
-from schemas.course import CourseCreate
+from schemas.course import CourseCreate, CourseUpdate
 
 
 def create_course(
@@ -74,3 +74,24 @@ def delete_course(
     session.commit()
 
     return {"message": "Course deleted"}
+
+
+def update_course(
+    course_id: int,
+    course_data: CourseUpdate,
+    session: Session
+):
+
+    # Reutiliza get_course: si no existe, ya lanza el 404.
+    course = get_course(course_id, session)
+
+    # Modifica el MISMO objeto: el ID no cambia y no se crea otro registro.
+    course.name = course_data.name
+    course.credits = course_data.credits
+    course.active = course_data.active
+
+    session.add(course)
+    session.commit()
+    session.refresh(course)
+
+    return course

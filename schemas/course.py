@@ -10,6 +10,13 @@ class CourseCreate(BaseModel):
     active: bool = True
 
 
+# Esquema de actualización completa (PUT): los tres campos son obligatorios.
+class CourseUpdate(BaseModel):
+    name: str = Field(min_length=3, max_length=80)
+    credits: int = Field(ge=1, le=6)
+    # Sin valor por defecto: si falta, FastAPI responde 422.
+    active: bool
+
 # Esquema de salida: define los campos devueltos al cliente, incluido el ID.
 class CourseResponse(BaseModel):
     id: int
