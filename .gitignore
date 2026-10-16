@@ -6,7 +6,7 @@ __pycache__/
 .pytest_cache/
 .coverage
 htmlcov/
-
+database.db
 # Datos locales y configuración privada
 *.db
 *.db-*
