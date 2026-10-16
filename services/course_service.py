@@ -59,3 +59,18 @@ def get_course(
         )
 
     return course
+
+
+def delete_course(
+    course_id: int,
+    session: Session
+):
+
+    # Reutiliza get_course: si el curso no existe, ya lanza el 404.
+    course = get_course(course_id, session)
+
+    # Marca el registro para eliminarlo y confirma el cambio en SQLite.
+    session.delete(course)
+    session.commit()
+
+    return {"message": "Course deleted"}
